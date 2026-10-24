@@ -1,61 +1,72 @@
-# 🚀 Getting started with Strapi
+# ⚙️ Nova Store Backend - Strapi Headless CMS
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+![Strapi](https://img.shields.io/badge/Strapi-v4-2E7AEA?style=for-the-badge&logo=strapi)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs)
+![Database](https://img.shields.io/badge/Database-SQLite%2FPostgreSQL-4169E1?style=for-the-badge)
+![API](https://img.shields.io/badge/API-RESTful-orange?style=for-the-badge)
 
-### `develop`
-
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
-
-```
-npm run develop
-# or
-yarn develop
-```
-
-### `start`
-
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
-
-```
-npm run start
-# or
-yarn start
-```
-
-### `build`
-
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
-
-```
-npm run build
-# or
-yarn build
-```
-
-## ⚙️ Deployment
-
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
-
-```
-yarn strapi deploy
-```
-
-## 📚 Learn more
-
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
-
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
-
-## ✨ Community
-
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+هذا المستودع يحتوي على خادم الخلفية (Backend) لمتجر **Nova Store** الإلكتروني، والمبني باستخدام **Strapi Headless CMS**. يُوفر الخادم لوحة تحكم إدارية كاملة لإدارة المنتجات، التصنيفات، الصور، والبيانات، بالإضافة إلى تقديم RESTful APIs لتغذية الواجهة الأمامية المرفوعة على Vercel.
 
 ---
 
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+##  Connected Frontend | الواجهة الأمامية المرتبطة
+
+- **Live Frontend App:** [https://nova-store-git-main-ahmed-hamdy.vercel.app]
+
+---
+
+##  Content Architecture | هيكلة البيانات (Content Types)
+
+تم بناء هيكلة البيانات (Schemas) داخل Strapi لتغطية متطلبات المتجر كالتالي:
+
+### 1. Products (`api::product.product`)
+- **Title** (`Short Text`): اسم المنتج.
+- **Description** (`Long Text` / `Rich Text`): تفاصيل ووصف المنتج.
+- **Price** (`Decimal`): سعر المنتج الحالي.
+- **OldPrice** (`Decimal` - Optional): السعر قبل الخصم.
+- **IsNew** (`Boolean`): تحديد ما إذا كان المنتج حديثاً.
+- **Images** (`Media - Multiple`): صور المنتج المعروضة.
+- **Category** (`Relation`): علاقة (Many-to-One) لربط المنتج بتصنيف معين.
+
+### 2. Categories (`api::category.category`)
+- **Title** (`Short Text`): اسم التصنيف.
+- **Description** (`Long Text`): وصف التصنيف.
+- **Image** (`Media - Single`): صورة غلاف التصنيف.
+- **Products** (`Relation`): علاقة (One-to-Many) تضم كافة المنتجات التابعة لهذا التصنيف.
+
+---
+
+## 🔌 REST API Endpoints | نقاط الاتصال
+
+يوفر الخادم نقاط اتصال جاهزة لاستدعاء البيانات من الفرونت إند:
+
+| Method | Endpoint | Description | Example Query |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/products` | جلب كافة المنتجات | `/api/products?populate=*` |
+| `GET` | `/api/products/:id` | جلب منتج محدد حسب الـ ID | `/api/products/1?populate=*` |
+| `GET` | `/api/categories` | جلب كافة التصنيفات مع صورها | `/api/categories?populate=*` |
+| `GET` | `/api/products` | تصفية المنتجات حسب التصنيف | `/api/products?filters[category][id][$eq]=1&populate=*` |
+
+> 📌 **ملاحظة:** ينبغي إرفاق `?populate=*` مع الـ Requests لضمان استرجاع العلاقات الصور والبيانات المرتبطة.
+
+---
+
+## 🔑 Permissions & Security Setup | إعداد الأذونات
+
+لكي يتمكن تطبيق الفرونت إند من جلب البيانات بدون التعرض لخطأ `403 Forbidden`:
+
+1. افتح لوحة تحكم الأدمن: `http://localhost:1337/admin`
+2. اذهب إلى **Settings** ➔ **Users & Permissions Plugin** ➔ **Roles**.
+3. اختر دور **Public**.
+4. في القائمة المنسدلة لـ **Product**: حدد `find` و `findOne`.
+5. في القائمة المنسدلة لـ **Category**: حدد `find` و `findOne`.
+6. اضغط **Save** لحفظ التغييرات.
+
+---
+
+## 🚀 Local Installation & Setup | التشغيل محلياً
+
+### 1. Clone Repository
+```bash
+git clone <YOUR_BACKEND_REPOSITORY_URL>
+cd nova-store-backend
