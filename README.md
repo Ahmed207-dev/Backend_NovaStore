@@ -11,7 +11,6 @@ Headless CMS API service powering the **Nova Store** e-commerce platform. Built 
 ## 🔗 Live Links
 
 - **Frontend App:** [Nova Store Live](https://nova-store-git-main-ahmed-hamdy.vercel.app/)
-- **Frontend Repo:** [front-end-ecommerce](https://github.com/Ahmed207-dev/front-end-ecommerce)
 
 ---
 
