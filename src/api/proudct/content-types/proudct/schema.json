@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "proudcts",
+  "info": {
+    "singularName": "proudct",
+    "pluralName": "proudcts",
+    "displayName": "proudcts"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "price": {
+      "type": "biginteger"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::categorie.categorie",
+      "inversedBy": "proudcts"
+    },
+    "carts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cart.cart",
+      "mappedBy": "proudct"
+    },
+    "wishlists": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::wishlist.wishlist",
+      "mappedBy": "proudct"
+    }
+  }
+}

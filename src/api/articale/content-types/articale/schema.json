@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articales",
+  "info": {
+    "singularName": "articale",
+    "pluralName": "articales",
+    "displayName": "Articales"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "date": {
+      "type": "date"
+    },
+    "img": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "slug": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::slug.slug",
+      "inversedBy": "articales"
+    }
+  }
+}
