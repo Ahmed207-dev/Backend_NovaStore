@@ -8,16 +8,17 @@ Headless CMS API service powering the **Nova Store** e-commerce platform. Built 
 
 ---
 
-## 🔗 Live Links
+## 🔗 Links
 
-- **Frontend App:** [Nova Store Live](https://nova-store-git-main-ahmed-hamdy.vercel.app/)
+- **Frontend Live App:** [Nova Store Live](https://nova-store-git-main-ahmed-hamdy.vercel.app/)
+- **Frontend Repository:** [Nova Store Frontend](https://github.com/Ahmed207-dev/nova-store)
 
 ---
 
 ## 🏗️ Content Architecture
 
-- **Products (`api::product`)**: Title, Description, Price, OldPrice, IsNew, Images, Category (Many-to-One).
-- **Categories (`api::category`)**: Title, Description, Image, Products (One-to-Many).
+- **Products (`api::product`):** Title, Description, Price, OldPrice, IsNew, Images, Category (Many-to-One).
+- **Categories (`api::category`):** Title, Description, Image, Products (One-to-Many).
 
 ---
 
@@ -36,8 +37,8 @@ Headless CMS API service powering the **Nova Store** e-commerce platform. Built 
 
 ```bash
 # Clone & install
-git clone [https://github.com/Ahmed207-dev/nova-store-backend.git](https://github.com/Ahmed207-dev/nova-store-backend.git)
-cd nova-store-backend
+git clone [https://github.com/Ahmed207-dev/backend_strapi.git](https://github.com/Ahmed207-dev/backend_strapi.git)
+cd backend_strapi
 npm install
 
 # Environment setup
@@ -45,3 +46,4 @@ cp .env.example .env
 
 # Run development server
 npm run develop
+```
